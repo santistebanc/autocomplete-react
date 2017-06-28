@@ -10,7 +10,7 @@ export default class extends React.Component {
 
     if (query.length > 0) {
       const results = await this.props.fetch(e.currentTarget.value);
-      this.setState({ show: true, list: results.map(r => r.name) });
+      this.setState({ show: true, list: results });
     } else {
       this.setState({ show: false });
     }
@@ -21,7 +21,7 @@ export default class extends React.Component {
   }
   handleBlur = (e) => {
     this.setState({ show: false });
-    
+
     //refocus if the blur was caused by having selected a suggestion
     if (this.justSelectedAnOption) e.currentTarget.focus();
     this.justSelectedAnOption = false;

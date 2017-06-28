@@ -22413,7 +22413,16 @@ module.exports = ReactDOMInvalidARIAHook;
 
 
 const localFetchPromise = query => new Promise((resolve, reject) => {
-  resolve(__WEBPACK_IMPORTED_MODULE_2__countries_json___default.a.filter(it => it.name.toLowerCase().includes(query.trim().toLowerCase())));
+  const results = __WEBPACK_IMPORTED_MODULE_2__countries_json___default.a.filter(it => it.name.toLowerCase().includes(query.trim().toLowerCase()));
+  resolve(results.map(it => it.name));
+});
+
+const googlePlacesFetchPromise = query => new Promise((resolve, reject) => {
+  const service = new google.maps.places.AutocompleteService();
+  service.getPlacePredictions({ input: query.trim().toLowerCase() }, (predictions, status) => {
+    if (status != google.maps.places.PlacesServiceStatus.OK) reject(status);
+    resolve(predictions.map(it => it.description));
+  });
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
@@ -22426,7 +22435,19 @@ const localFetchPromise = query => new Promise((resolve, reject) => {
         null,
         'AutoComplete'
       ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__AutoComplete_jsx__["a" /* default */], { fetch: localFetchPromise })
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h4',
+        null,
+        'Countries from Local JSON File'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__AutoComplete_jsx__["a" /* default */], { fetch: localFetchPromise }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h4',
+        null,
+        'Google Places API'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__AutoComplete_jsx__["a" /* default */], { fetch: googlePlacesFetchPromise })
     );
   }
 });
@@ -22457,9 +22478,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         if (query.length > 0) {
           const results = yield _this.props.fetch(e.currentTarget.value);
-          _this.setState({ show: true, list: results.map(function (r) {
-              return r.name;
-            }) });
+          _this.setState({ show: true, list: results });
         } else {
           _this.setState({ show: false });
         }
