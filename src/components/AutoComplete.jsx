@@ -16,15 +16,16 @@ export default class extends React.Component {
     }
 
   }
-  handleFocus = () => {
-    if (this.state.text.length > 0) this.setState({ show: true });
+  handleFocus = (e) => {
+    if (this.state.text.length > 0 && this.state.list.length > 0) this.setState({ show: true });
+    if (!this.justSelectedAnOption) e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)
+    this.justSelectedAnOption = false;
   }
   handleBlur = (e) => {
     this.setState({ show: false });
 
     //refocus if the blur was caused by having selected a suggestion
     if (this.justSelectedAnOption) e.currentTarget.focus();
-    this.justSelectedAnOption = false;
   }
   handleSelect = (text) => {
     this.justSelectedAnOption = true;
