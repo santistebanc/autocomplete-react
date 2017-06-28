@@ -22487,14 +22487,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       return function (_x) {
         return _ref.apply(this, arguments);
       };
-    })(), this.handleFocus = () => {
-      if (this.state.text.length > 0) this.setState({ show: true });
+    })(), this.handleFocus = e => {
+      if (this.state.text.length > 0 && this.state.list.length > 0) this.setState({ show: true });
+      if (!this.justSelectedAnOption) e.currentTarget.setSelectionRange(0, e.currentTarget.value.length);
+      this.justSelectedAnOption = false;
     }, this.handleBlur = e => {
       this.setState({ show: false });
 
       //refocus if the blur was caused by having selected a suggestion
       if (this.justSelectedAnOption) e.currentTarget.focus();
-      this.justSelectedAnOption = false;
     }, this.handleSelect = text => {
       this.justSelectedAnOption = true;
       this.setState({ text, list: [] });
