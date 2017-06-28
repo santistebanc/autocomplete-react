@@ -29,15 +29,15 @@ export default class extends React.Component {
   }
   handleSelect = (text) => {
     this.justSelectedAnOption = true;
-    this.setState({ text, list: [] });
+    this.setState({ text, list: [], show: false });
   }
   render() {
     return (
       <div style={this.props.style}>
         <SearchBox value={this.state.text} onChange={this.handleChangeText} onBlur={this.handleBlur} onFocus={this.handleFocus} />
-        <div style={{ position: 'relative' }}>
-          <SuggestionsList list={this.state.list} visible={this.state.show} onSelect={this.handleSelect} />
-        </div>
+        {this.state.show && <div style={{ position: 'relative' }}>
+          <SuggestionsList list={this.state.list} onSelect={this.handleSelect} />
+        </div>}
       </div>);
   }
 }

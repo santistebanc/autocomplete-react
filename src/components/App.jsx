@@ -4,14 +4,14 @@ import countries from '../countries.json';
 
 const localFetchPromise = (query) => new Promise((resolve, reject) => {
   const results = countries.filter(it => it.name.toLowerCase().includes(query.trim().toLowerCase()));
-  resolve(results.map(it=>it.name));
+  resolve(results.map(it => it.name));
 })
 
 const googlePlacesFetchPromise = (query) => new Promise((resolve, reject) => {
   const service = new google.maps.places.AutocompleteService();
   service.getPlacePredictions({ input: query.trim().toLowerCase() }, (predictions, status) => {
     if (status != google.maps.places.PlacesServiceStatus.OK) reject(status);
-    resolve(predictions.map(it=>it.description));
+    resolve(predictions.map(it => it.description));
   });
 })
 
