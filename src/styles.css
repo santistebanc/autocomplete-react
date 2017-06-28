@@ -6,6 +6,9 @@
 .suggestion-item:hover{
   background: #ccc;
 }
+.suggestion-item.selected{
+  background: #ccc;
+}
 
 .suggestions-list{
   border: solid 1px gray;
