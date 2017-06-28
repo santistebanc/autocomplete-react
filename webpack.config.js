@@ -14,9 +14,11 @@ module.exports = {
     filename: 'script.js'
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+    rules: [
+      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.jsx$/, use: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'], exclude: /node_modules/ },
+      { test: /\.json$/, use: 'json-loader', exclude: /node_modules/ }
     ]
   },
   plugins: [HtmlWebpackPluginConfig]

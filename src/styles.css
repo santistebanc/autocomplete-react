@@ -1,0 +1,19 @@
+.suggestion-item{
+  padding: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+.suggestion-item:hover{
+  background: #ccc;
+}
+
+.suggestions-list{
+  border: solid 1px gray;
+  background: white;
+  overflow: auto;
+  max-height: 400px;
+
+}
+.suggestions-list.hide{
+  display: none;
+}
