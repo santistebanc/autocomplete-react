@@ -2,7 +2,7 @@ import countries from './countries.json';
 import React from 'react';
 
 const getMatchSubstrings = (str, query) => {
-  //method to match fetched search results against the input of user
+  //method to match a string against an input query
   let match = []
   let fromIndex = 0;
   while (fromIndex !== -1) {
@@ -17,21 +17,26 @@ const getMatchSubstrings = (str, query) => {
   return match;
 }
 
-const localFetchFunction = (query) => {
-  //function for fetching data from local countries.json data
+const matchQuery = (array, query) => {
+  //match a given query against an array of strings and sort them by a score
   let results = []
   if (query.length > 0) {
-    countries.forEach(it => {
-      const dbName = it.name.toLowerCase();
+    array.forEach(it => {
+      const dbName = it.toLowerCase();
       const queryName = query.trim().toLowerCase();
       const ind = dbName.indexOf(queryName);
       if (ind !== -1) {
         const score = ind / queryName.length * dbName.length;
-        results.push({ title: it.name, match: getMatchSubstrings(dbName, queryName), score: score })
+        results.push({ title: (it == undefined ? "" : it), matchList: getMatchSubstrings(dbName, queryName), score: score })
       }
     });
   }
   return results.sort((a, b) => a.score - b.score);
+}
+
+const localFetchFunction = (query) => {
+  //function for fetching data from local countries.json data
+  return matchQuery(countries.map(c => c.name), query)
 }
 
 const googlePlacesFetchPromise = (query) => new Promise((resolve, reject) => {
@@ -40,7 +45,7 @@ const googlePlacesFetchPromise = (query) => new Promise((resolve, reject) => {
   const service = new google.maps.places.AutocompleteService();
   service.getPlacePredictions({ input: query.trim().toLowerCase() }, (predictions, status) => {
     if (status != google.maps.places.PlacesServiceStatus.OK) return reject(status);
-    return resolve(predictions.map(it => ({ title: it.description, match: it.matched_substrings })));
+    return resolve(predictions.map(it => ({ title: it.description, matchList: it.matched_substrings })));
   });
 })
 
@@ -60,7 +65,7 @@ const getHighlightedTitle = (data) => {
   //generates the text to display on suggestions with highlighted match substrings
   let highlightedTitle = [];
   let pos = 0;
-  data.match.forEach((m, i) => {
+  data.matchList.forEach((m, i) => {
     highlightedTitle.push(<span key={i}>{data.title.slice(pos, m.offset)}</span>);
     highlightedTitle.push(<strong className="highlighted" key={i + "b"}>{data.title.slice(m.offset, m.offset + m.length)}</strong>);
     pos = m.offset + m.length;
@@ -69,4 +74,4 @@ const getHighlightedTitle = (data) => {
   return highlightedTitle;
 }
 
-export { getMatchSubstrings, localFetchFunction, googlePlacesFetchPromise, scrollIntoViewIfNeeded, getHighlightedTitle }
+export { getMatchSubstrings, matchQuery, localFetchFunction, googlePlacesFetchPromise, scrollIntoViewIfNeeded, getHighlightedTitle }

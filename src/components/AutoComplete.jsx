@@ -1,11 +1,12 @@
 import React from 'react';
 import SuggestionsList from './SuggestionsList.jsx'
 import SearchBox from './SearchBox.jsx'
+import { matchQuery } from '../utils.js'
 
 export default class extends React.Component {
   state = { text: "", show: false, list: [], selectedIndex: -1 }
   static get defaultProps() {
-    return { data: [], onChange: () => { }, onSubmit: () => { } }
+    return { data: [], onChange: () => { }, onSubmit: () => { }, highlightMatch: true }
   }
   searchSuggestions = async (query) => {
     //to be called whenever a new suggestions-list needs to be generated
@@ -18,9 +19,10 @@ export default class extends React.Component {
     else if (typeof this.props.data === "function") {
       //if data is a Function
       results = this.props.data(query);
-    } else if (this.props.data instanceof Array) {
+    }
+    else if (this.props.data instanceof Array) {
       //if data is an Array
-      results = this.props.data;
+      results = matchQuery(this.props.data, query);
     }
     this.setState({ list: results, selectedIndex: -1 });
   }
@@ -92,7 +94,7 @@ export default class extends React.Component {
         <SearchBox value={this.state.text} onChange={this.handleChangeText} onBlur={this.handleBlur} onFocus={this.handleFocus} onKeyDown={this.handleKeyDown} placeholder={this.props.placeholder} />
 
         {this.state.show && this.state.list.length > 0 && <div style={{ position: 'relative' }}>
-          <SuggestionsList list={this.state.list} onClickItem={this.handleClickItem} selectedIndex={this.state.selectedIndex} />
+          <SuggestionsList list={this.state.list} onClickItem={this.handleClickItem} selectedIndex={this.state.selectedIndex} highlightMatch={this.props.highlightMatch} />
         </div>}
 
       </div>);

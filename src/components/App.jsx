@@ -18,8 +18,12 @@ export default class extends React.Component {
         </section>
         <section className="content">
           <div className="panel">
+            <h4>Colors from static Array</h4>
+            <AutoComplete data={['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'brown']} placeholder="type the name of a color" />
+            <br />
+            <br />
             <h4>Countries from Local JSON File</h4>
-            <AutoComplete data={localFetchFunction} placeholder="type the name of a country" onChange={(text) => { console.log("changed to ", text) }} onSubmit={this.handleLocalSubmit} />
+            <AutoComplete data={localFetchFunction} placeholder="type the name of a country" onSubmit={this.handleLocalSubmit} />
             {this.state.localSubmitMessage}
             <br />
             <br />
