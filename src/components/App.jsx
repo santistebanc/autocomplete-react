@@ -1,8 +1,15 @@
 import React from 'react';
 import AutoComplete from './AutoComplete.jsx';
-import { localFetchPromise, googlePlacesFetchPromise} from '../utils.js';
+import { localFetchFunction, googlePlacesFetchPromise } from '../utils.js';
 
 export default class extends React.Component {
+  state = { localSubmitMessage: "", googleSubmitMessage: "" }
+  handleLocalSubmit = (text) => {
+    this.setState({ localSubmitMessage: <span className="submit-message">show results for: <i>{text}</i></span> })
+  }
+  handleGoogleSubmit = (text) => {
+    this.setState({ googleSubmitMessage: <span className="submit-message">show results for: <i>{text}</i></span> })
+  }
   render() {
     return (
       <div>
@@ -12,14 +19,18 @@ export default class extends React.Component {
         <section className="content">
           <div className="panel">
             <h4>Countries from Local JSON File</h4>
-            <AutoComplete fetch={localFetchPromise} placeholder="type name of a country" />
+            <AutoComplete data={localFetchFunction} placeholder="type the name of a country" onChange={(text) => { console.log("changed to ", text) }} onSubmit={this.handleLocalSubmit} />
+            {this.state.localSubmitMessage}
+            <br />
             <br />
             <h4>Google Places API</h4>
-            <AutoComplete fetch={googlePlacesFetchPromise} placeholder="type name of a place" />
+            <AutoComplete data={googlePlacesFetchPromise} placeholder="type the name of a place" onSubmit={this.handleGoogleSubmit} />
+            {this.state.googleSubmitMessage}
+            <br />
           </div>
         </section>
         <section className="footer">
-          <p>by Carlos Santisteban</p>
+          <p><a href="http://santistebanc.tk/">by Carlos Santisteban</a></p>
         </section>
       </div>);
   }

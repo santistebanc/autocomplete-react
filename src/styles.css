@@ -8,6 +8,16 @@
     src: url('./OpenSans-Bold.ttf') format('truetype');
 }
 
+a {
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #333;
+}
+
 h1 {
     margin: 0;
     padding: 8px;
@@ -109,7 +119,13 @@ section.footer {
 }
 
 .highlighted {
-    color: #755979;
+    color: #2c9ab7;
     font-weight: boldest;
     font-family: 'Open Sans Bold', sans-serif;
+}
+
+.submit-message {
+    padding: 4px;
+    font-family: 'Open Sans Bold', sans-serif;
+    color: #755979;
 }
