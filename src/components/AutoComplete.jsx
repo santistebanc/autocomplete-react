@@ -22,13 +22,13 @@ export default class extends React.Component {
     //refocus if the blur was caused by having selected a suggestion
     if (this.justClickedAnOption) e.currentTarget.focus();
   }
-  handleClickItem = (text) => {
+  handleClickItem = (selectedItem) => {
     this.justClickedAnOption = true;
-    this.searchSuggestions(text);
-    this.setState({ text, list: [], show: false });
+    this.searchSuggestions(selectedItem.title);
+    this.setState({ text: selectedItem.title, list: [], show: false });
   }
-  handleSelect = (text) => {
-    this.setState({ text: text == undefined ? "" : text });
+  handleSelect = (selectedItem) => {
+    this.setState({ text: selectedItem == undefined ? "" : selectedItem.title });
   }
   handleKeyDown = (e) => {
     if (e.key == "Enter") {
