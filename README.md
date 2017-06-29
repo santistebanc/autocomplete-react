@@ -37,7 +37,7 @@ Run the following command to get the production build.
 npm run build
 ```
 
-You can then open the dist/index.html.
+You can then open dist/index.html.
 
 ## API
 
@@ -45,8 +45,10 @@ You can then open the dist/index.html.
 
  All Props are Optional
 
-#### `data: Array | Function`
-Property containing the data that will be used to populate the suggestions list of the autocomplete. The data prop can be in either one of these configurations:
+#### `data: Array | Function( query: String)`
+Property containing the data that will be used to populate the suggestions list of the autocomplete. If a Function is used, it will be passed a `query` String containing the input of the user.
+
+The `data` prop can be in either one of these configurations:
 
 #### data as simple static Array
 
