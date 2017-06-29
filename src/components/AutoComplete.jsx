@@ -52,10 +52,9 @@ export default class extends React.Component {
     }
   }
   render() {
-    console.log(this.state.text)
     return (
-      <div style={this.props.style}>
-        <SearchBox value={this.state.text} onChange={this.handleChangeText} onBlur={this.handleBlur} onFocus={this.handleFocus} onKeyDown={this.handleKeyDown} />
+      <div className="autocomplete" style={this.props.style}>
+        <SearchBox value={this.state.text} onChange={this.handleChangeText} onBlur={this.handleBlur} onFocus={this.handleFocus} onKeyDown={this.handleKeyDown} placeholder={this.props.placeholder} />
         {this.state.show && this.state.list.length > 0 && <div style={{ position: 'relative' }}>
           <SuggestionsList list={this.state.list} onClickItem={this.handleClickItem} selectedIndex={this.state.selectedIndex} />
         </div>}

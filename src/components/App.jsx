@@ -19,13 +19,22 @@ const googlePlacesFetchPromise = (query) => new Promise((resolve, reject) => {
 export default class extends React.Component {
   render() {
     return (
-      <div style={{ maxWidth: 400, margin: 'auto' }}>
-        <h1>AutoComplete</h1>
-        <h4>Countries from Local JSON File</h4>
-        <AutoComplete fetch={localFetchPromise} />
-        <br />
-        <h4>Google Places API</h4>
-        <AutoComplete fetch={googlePlacesFetchPromise} />
+      <div>
+        <section className="header">
+          <h1>AutoComplete</h1>
+        </section>
+        <section className="content">
+          <div className="panel">
+            <h4>Countries from Local JSON File</h4>
+            <AutoComplete fetch={localFetchPromise} placeholder="type name of a country" />
+            <br />
+            <h4>Google Places API</h4>
+            <AutoComplete fetch={googlePlacesFetchPromise} placeholder="type name of a place" />
+          </div>
+        </section>
+        <section className="footer">
+          <p>by Carlos Santisteban</p>
+        </section>
       </div>);
   }
 }
